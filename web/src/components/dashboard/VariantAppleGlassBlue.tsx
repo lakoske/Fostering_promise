@@ -66,18 +66,13 @@ export function DashboardVariantAppleGlassBlue() {
         {screen === "dashboard" ? (
           <div className="relative px-5 pb-32 pt-8">
             <header className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-b from-sky/35 to-sky/15 text-[15px] font-medium text-sky-dark shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-xl">
-                  {mockUser.name[0]}
-                </div>
-                <div>
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-ink-soft/70">
-                    Good afternoon
-                  </p>
-                  <h1 className="text-[36px] font-extralight leading-[1.05] tracking-tight text-ink">
-                    {mockUser.name}
-                  </h1>
-                </div>
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-ink-soft/70">
+                  Good afternoon
+                </p>
+                <h1 className="text-[36px] font-extralight leading-[1.05] tracking-tight text-ink">
+                  {mockUser.name}
+                </h1>
               </div>
               <button
                 type="button"

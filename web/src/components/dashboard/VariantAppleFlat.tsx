@@ -60,16 +60,11 @@ export function DashboardVariantAppleFlat() {
         {screen === "dashboard" ? (
           <div className="px-5 pb-32 pt-8">
             <header className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-black/[0.06] text-[15px] font-semibold text-ink">
-                  {mockUser.name[0]}
-                </div>
-                <div>
-                  <p className="text-[13px] text-ink-soft">Good afternoon</p>
-                  <h1 className="text-[22px] font-semibold tracking-tight text-ink">
-                    {mockUser.name}
-                  </h1>
-                </div>
+              <div>
+                <p className="text-[13px] text-ink-soft">Good afternoon</p>
+                <h1 className="text-[22px] font-semibold tracking-tight text-ink">
+                  {mockUser.name}
+                </h1>
               </div>
               <button
                 type="button"
