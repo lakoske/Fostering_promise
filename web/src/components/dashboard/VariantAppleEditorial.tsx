@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronRight, Search } from "lucide-react";
 import { Quicksand } from "next/font/google";
 import { mockHousingUnits, mockNavigator, mockTiles, mockUser } from "@/lib/mock-data";
-import { navIcons, PhoneShell, tileIcons } from "./shared";
+import { navIcons, PhoneShell, StatusBar, tileIcons } from "./shared";
 
-// Quicksand has no true italic cut in Google Fonts — "italic" below is a
-// browser-synthesized (oblique) slant applied via the `italic` utility class.
+// Quicksand has no italic cut in Google Fonts — used upright, applied to
+// every piece of text in this variant (not just the display heading).
 const display = Quicksand({
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 // Reference palette, literally: pale blue-gray canvas, cream/white cards,
@@ -58,18 +58,59 @@ function ProgressRing({ value, size = 46 }: { value: number; size?: number }) {
   );
 }
 
+type Screen = "welcome" | "dashboard" | "repository";
+const nextScreen: Record<Screen, Screen> = {
+  welcome: "dashboard",
+  dashboard: "repository",
+  repository: "welcome",
+};
+
 export function DashboardVariantAppleEditorial() {
-  const [screen, setScreen] = useState<"dashboard" | "repository">("dashboard");
+  const [screen, setScreen] = useState<Screen>("welcome");
   const progress = mockNavigator.stepIndex / mockNavigator.stepCount;
 
   return (
     <PhoneShell>
       <div
-        onClick={() => setScreen((s) => (s === "dashboard" ? "repository" : "dashboard"))}
-        className="relative flex-1 cursor-pointer overflow-y-auto bg-[#dde4e6]"
+        onClick={() => setScreen((s) => nextScreen[s])}
+        className={`${display.className} relative flex flex-1 cursor-pointer flex-col overflow-hidden bg-[#dde4e6]`}
       >
-        {screen === "dashboard" ? (
-          <div className="relative px-5 pb-32 pt-8">
+        <StatusBar />
+
+        <div className="relative flex-1 overflow-y-auto overflow-x-hidden">
+        {screen === "welcome" ? (
+          <div className="absolute inset-0 flex flex-col px-6 pb-24 pt-4 text-center">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-ink-soft">
+              My Housing Platform
+            </p>
+
+            <div className="mt-14 flex flex-1 flex-col items-center">
+              <img
+                src="/images/mockup-assets/avatar-amara.png"
+                alt={mockUser.name}
+                className="h-28 w-28 rounded-full object-cover ring-4 ring-white"
+              />
+              <p className="mt-8 text-[14px] text-ink-soft">Welcome back</p>
+              <p className="mt-1 text-[36px] font-bold leading-[1.05] text-ink">
+                {mockUser.name}
+              </p>
+
+              <button
+                type="button"
+                className="mt-10 w-full max-w-[220px] rounded-full py-3.5 text-[15px] font-bold text-black"
+                style={{ backgroundColor: YELLOW }}
+              >
+                Click to log in
+              </button>
+            </div>
+
+            <div className="rounded-full bg-white px-5 py-3.5 text-[12px] text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+              You have {mockUser.unreadMessages} messages waiting.{" "}
+              <span className="font-semibold text-ink">Log in to get started.</span>
+            </div>
+          </div>
+        ) : screen === "dashboard" ? (
+          <div className="relative px-5 pb-32 pt-6">
             <header className="flex items-center justify-end gap-2">
               <button
                 type="button"
@@ -109,10 +150,7 @@ export function DashboardVariantAppleEditorial() {
             <p className="mt-7 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-soft">
               Good afternoon
             </p>
-            <h1
-              className={`${display.className} text-[44px] leading-[1] tracking-tight text-ink`}
-              style={{ fontStyle: "italic" }}
-            >
+            <h1 className="text-[44px] font-bold leading-[1] tracking-tight text-ink">
               {mockUser.name}
             </h1>
 
@@ -139,7 +177,7 @@ export function DashboardVariantAppleEditorial() {
             <p className="mb-2 mt-8 px-1 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-soft">
               Quick access
             </p>
-            <div className="flex flex-col gap-2.5">
+            <div className="grid grid-cols-2 gap-3">
               {mockTiles.map((tile, i) => {
                 const Icon = tileIcons[tile.key];
                 const isFeatured = i === 0;
@@ -149,22 +187,24 @@ export function DashboardVariantAppleEditorial() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
-                    className="flex items-center gap-3 rounded-full py-2.5 pl-2.5 pr-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                    className="relative flex flex-col gap-4 rounded-[26px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
                     style={{ backgroundColor: isFeatured ? YELLOW : "#ffffff" }}
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/70">
-                      <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
-                    </div>
-                    <p className="flex-1 truncate text-[15px] font-semibold text-ink">
-                      {tile.label}
-                    </p>
                     {tile.badge && (
-                      <span className="flex h-[20px] min-w-[20px] items-center justify-center rounded-full bg-black px-1 text-[10px] font-semibold text-white">
+                      <span className="absolute right-3 top-3 flex h-[20px] min-w-[20px] items-center justify-center rounded-full bg-black px-1 text-[10px] font-semibold text-white">
                         {tile.badge}
                       </span>
                     )}
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-white">
-                      <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/70">
+                      <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
+                    </div>
+                    <div className="flex items-end justify-between gap-2">
+                      <p className="text-[14px] font-semibold leading-tight text-ink">
+                        {tile.label}
+                      </p>
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-white">
+                        <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -172,12 +212,9 @@ export function DashboardVariantAppleEditorial() {
             </div>
           </div>
         ) : (
-          <div className="relative px-5 pb-32 pt-8">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to go back</p>
-            <h1
-              className={`${display.className} mt-1 text-[36px] leading-[1] tracking-tight text-ink`}
-              style={{ fontStyle: "italic" }}
-            >
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[36px] font-bold leading-[1] tracking-tight text-ink">
               Housing Repository
             </h1>
             <motion.div
@@ -216,19 +253,22 @@ export function DashboardVariantAppleEditorial() {
             </motion.div>
           </div>
         )}
+        </div>
 
-        <nav className="absolute inset-x-4 bottom-4 flex items-center justify-around rounded-full bg-white py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.1)]">
-          {navIcons.map((Icon, i) => (
-            <div
-              key={i}
-              className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                i === 0 ? "bg-black text-white" : "text-ink-soft/50"
-              }`}
-            >
-              <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
-            </div>
-          ))}
-        </nav>
+        {screen !== "welcome" && (
+          <nav className="absolute inset-x-4 bottom-4 flex items-center justify-around rounded-full bg-white py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.1)]">
+            {navIcons.map((Icon, i) => (
+              <div
+                key={i}
+                className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                  i === 0 ? "bg-black text-white" : "text-ink-soft/50"
+                }`}
+              >
+                <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
+              </div>
+            ))}
+          </nav>
+        )}
       </div>
     </PhoneShell>
   );

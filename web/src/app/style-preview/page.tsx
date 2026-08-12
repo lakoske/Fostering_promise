@@ -2,27 +2,13 @@
 
 import { useState } from "react";
 import { DashboardVariantAppleEditorial } from "@/components/dashboard/VariantAppleEditorial";
-import { DashboardVariantAppleFlat } from "@/components/dashboard/VariantAppleFlat";
 import { DashboardVariantAppleGlass } from "@/components/dashboard/VariantAppleGlass";
-import { DashboardVariantAppleGlassBlue } from "@/components/dashboard/VariantAppleGlassBlue";
-import { DashboardVariantAppleGraphite } from "@/components/dashboard/VariantAppleGraphite";
 
 const variants = [
-  { key: "apple-flat", label: "Apple Minimal", Component: DashboardVariantAppleFlat },
   {
     key: "apple-glass",
     label: "Apple Glass (blue+teal)",
     Component: DashboardVariantAppleGlass,
-  },
-  {
-    key: "apple-glass-blue",
-    label: "Apple Glass (blue)",
-    Component: DashboardVariantAppleGlassBlue,
-  },
-  {
-    key: "apple-graphite",
-    label: "Apple Graphite (dark)",
-    Component: DashboardVariantAppleGraphite,
   },
   {
     key: "apple-editorial",
@@ -33,7 +19,7 @@ const variants = [
 
 export default function StylePreviewPage() {
   const [active, setActive] = useState<(typeof variants)[number]["key"]>(
-    variants[1].key,
+    variants[0].key,
   );
   const Active = variants.find((v) => v.key === active)!.Component;
 
