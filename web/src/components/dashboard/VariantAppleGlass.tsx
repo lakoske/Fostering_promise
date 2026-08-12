@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { mockHousingUnits, mockNavigator, mockTiles, mockUser } from "@/lib/mock-data";
-import { navIcons, PhoneShell, tileIcons } from "./shared";
+import { iconGradientId, navIcons, PhoneShell, tileIcons } from "./shared";
 
 function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
   const stroke = 5;
@@ -128,23 +128,23 @@ export function DashboardVariantAppleGlass() {
             <p className="mb-2 mt-7 px-1 text-[11px] font-medium uppercase tracking-wide text-ink-soft/70">
               Quick access
             </p>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.05 }}
-              className="overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-br from-white/85 via-white/70 to-white/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
-            >
+            <div className="flex flex-col gap-3">
               {mockTiles.map((tile, i) => {
                 const Icon = tileIcons[tile.key];
                 return (
-                  <div
+                  <motion.div
                     key={tile.key}
-                    className={`flex w-full items-center gap-3 px-4 py-3.5 text-left ${
-                      i !== mockTiles.length - 1 ? "border-b border-black/[0.05]" : ""
-                    }`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
+                    className="flex w-full items-center gap-3 rounded-[22px] border border-white/60 bg-gradient-to-br from-white/85 via-white/70 to-white/50 px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-gradient-to-br from-brand-blue/20 to-brand-blue/5 text-brand-blue">
-                      <Icon className="h-4 w-4" strokeWidth={1.75} />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue/15 to-brand-teal/15">
+                      <Icon
+                        className="h-5 w-5"
+                        strokeWidth={1.25}
+                        color={`url(#${iconGradientId})`}
+                      />
                     </div>
                     <p className="flex-1 text-[15px] font-medium text-ink">
                       {tile.label}
@@ -155,10 +155,10 @@ export function DashboardVariantAppleGlass() {
                       </span>
                     )}
                     <ChevronRight className="h-3.5 w-3.5 text-ink-soft/40" />
-                  </div>
+                  </motion.div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
         ) : (
           <div className="relative px-5 pb-32 pt-8">
