@@ -10,6 +10,21 @@ export const mockNavigator = {
   stepCount: 5,
 };
 
+export const mockNavigatorTask = {
+  title: "Proof Of Income",
+  description:
+    "Proof that you have a steady way to pay rent (like pay stubs or your SILP/THP stipend).",
+  primaryCta: "I Have It",
+  secondaryCta: "How Do I Get It?",
+};
+
+export const mockInfoTopics: { key: string; label: string }[] = [
+  { key: "vouchers", label: "How to use vouchers" },
+  { key: "credit", label: "Establish credit" },
+  { key: "budget", label: "Budgets and credit score" },
+  { key: "rights", label: "Renter's rights" },
+];
+
 export const mockHousingUnits = [
   { image: "/images/mockup-assets/apartment-1.png", units: 10, city: "Gilroy, CA" },
   { image: "/images/mockup-assets/apartment-2.png", units: 2, city: "San Francisco, CA" },

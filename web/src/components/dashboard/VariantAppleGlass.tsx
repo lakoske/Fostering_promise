@@ -2,9 +2,23 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
-import { mockHousingUnits, mockNavigator, mockTiles, mockUser } from "@/lib/mock-data";
-import { iconGradientId, navIcons, PhoneShell, StatusBar, tileIcons } from "./shared";
+import { ChevronRight, Search } from "lucide-react";
+import {
+  mockHousingUnits,
+  mockInfoTopics,
+  mockNavigator,
+  mockNavigatorTask,
+  mockTiles,
+  mockUser,
+} from "@/lib/mock-data";
+import {
+  iconGradientId,
+  infoTopicIcons,
+  navIcons,
+  PhoneShell,
+  StatusBar,
+  tileIcons,
+} from "./shared";
 
 function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
   const stroke = 5;
@@ -47,11 +61,13 @@ function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
   );
 }
 
-type Screen = "welcome" | "dashboard" | "repository";
+type Screen = "welcome" | "dashboard" | "navigator" | "repository" | "infoPortal";
 const nextScreen: Record<Screen, Screen> = {
   welcome: "dashboard",
-  dashboard: "repository",
-  repository: "welcome",
+  dashboard: "navigator",
+  navigator: "repository",
+  repository: "infoPortal",
+  infoPortal: "welcome",
 };
 
 export function DashboardVariantAppleGlass() {
@@ -207,7 +223,59 @@ export function DashboardVariantAppleGlass() {
                     })}
                   </div>
                 </div>
-              ) : (
+              ) : screen === "navigator" ? (
+                <div className="relative px-5 pb-32 pt-6">
+                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
+                    Housing Navigator
+                  </h1>
+
+                  <div className="mt-6 flex items-center gap-2">
+                    {Array.from({ length: mockNavigator.stepCount }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`h-1.5 rounded-full ${
+                          i === mockNavigator.stepIndex - 1
+                            ? "w-6 bg-brand-blue"
+                            : "w-1.5 bg-ink-soft/20"
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-6 rounded-[28px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                  >
+                    <p className="text-[17px] font-semibold text-ink">
+                      {mockNavigatorTask.title}
+                    </p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+                      {mockNavigatorTask.description}
+                    </p>
+                    <button
+                      type="button"
+                      className="mt-5 w-full rounded-full bg-brand-blue py-3 text-[14px] font-semibold text-white"
+                    >
+                      {mockNavigatorTask.primaryCta}
+                    </button>
+                    <p className="mt-4 text-center text-[13px] font-medium text-brand-blue">
+                      {mockNavigatorTask.secondaryCta}
+                    </p>
+                  </motion.div>
+
+                  <div className="mt-6 flex items-center gap-3">
+                    <div className="flex-1 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-3 text-center text-[14px] font-medium text-ink-soft backdrop-blur-xl">
+                      Back
+                    </div>
+                    <div className="flex-1 rounded-full bg-brand-blue py-3 text-center text-[14px] font-medium text-white">
+                      Next
+                    </div>
+                  </div>
+                </div>
+              ) : screen === "repository" ? (
                 <div className="relative px-5 pb-32 pt-6">
                   <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
@@ -237,6 +305,61 @@ export function DashboardVariantAppleGlass() {
                         </div>
                       </div>
                     ))}
+                  </motion.div>
+                </div>
+              ) : (
+                <div className="relative px-5 pb-32 pt-6">
+                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
+                    Housing 101 Info Portal
+                  </h1>
+
+                  <div className="mt-6 flex items-center gap-2 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 px-4 py-3 backdrop-blur-xl">
+                    <Search className="h-4 w-4 text-ink-soft/60" strokeWidth={1.75} />
+                    <span className="text-[13px] text-ink-soft/60">Search...</span>
+                  </div>
+
+                  <div className="mt-4 flex gap-2">
+                    {["Housing", "Credit"].map((tag, i) => (
+                      <span
+                        key={tag}
+                        className={`rounded-full px-4 py-2 text-[12px] font-medium ${
+                          i === 0
+                            ? "bg-brand-blue text-white"
+                            : "border border-white/40 bg-gradient-to-b from-white/45 to-white/20 text-ink-soft backdrop-blur-xl"
+                        }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-6 grid grid-cols-2 gap-3"
+                  >
+                    {mockInfoTopics.map((topic, i) => {
+                      const Icon = infoTopicIcons[topic.key];
+                      return (
+                        <div
+                          key={topic.key}
+                          className="flex flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                        >
+                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue/15 to-brand-teal/15">
+                            <Icon
+                              className="h-5 w-5"
+                              strokeWidth={1.25}
+                              color={`url(#${iconGradientId})`}
+                            />
+                          </div>
+                          <p className="text-[14px] font-medium leading-tight text-ink">
+                            {topic.label}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 </div>
               )}

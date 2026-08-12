@@ -1,10 +1,14 @@
 import {
   Bell,
   BookOpen,
+  CreditCard,
   GraduationCap,
   HeartHandshake,
   LifeBuoy,
   Menu,
+  PiggyBank,
+  Scale,
+  Ticket,
   User,
   Wallet,
   type LucideIcon,
@@ -15,6 +19,13 @@ export const tileIcons: Record<string, LucideIcon> = {
   learn: BookOpen,
   wallet: Wallet,
   resources: LifeBuoy,
+};
+
+export const infoTopicIcons: Record<string, LucideIcon> = {
+  vouchers: Ticket,
+  credit: CreditCard,
+  budget: PiggyBank,
+  rights: Scale,
 };
 
 export const navIcons: LucideIcon[] = [GraduationCap, Bell, User, Menu];

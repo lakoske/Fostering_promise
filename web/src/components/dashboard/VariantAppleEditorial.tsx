@@ -4,8 +4,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronRight, Search } from "lucide-react";
 import { Quicksand } from "next/font/google";
-import { mockHousingUnits, mockNavigator, mockTiles, mockUser } from "@/lib/mock-data";
-import { navIcons, PhoneShell, StatusBar, tileIcons } from "./shared";
+import {
+  mockHousingUnits,
+  mockInfoTopics,
+  mockNavigator,
+  mockNavigatorTask,
+  mockTiles,
+  mockUser,
+} from "@/lib/mock-data";
+import { infoTopicIcons, navIcons, PhoneShell, StatusBar, tileIcons } from "./shared";
 
 // Quicksand has no italic cut in Google Fonts — used upright, applied to
 // every piece of text in this variant (not just the display heading).
@@ -58,11 +65,13 @@ function ProgressRing({ value, size = 46 }: { value: number; size?: number }) {
   );
 }
 
-type Screen = "welcome" | "dashboard" | "repository";
+type Screen = "welcome" | "dashboard" | "navigator" | "repository" | "infoPortal";
 const nextScreen: Record<Screen, Screen> = {
   welcome: "dashboard",
-  dashboard: "repository",
-  repository: "welcome",
+  dashboard: "navigator",
+  navigator: "repository",
+  repository: "infoPortal",
+  infoPortal: "welcome",
 };
 
 export function DashboardVariantAppleEditorial() {
@@ -211,7 +220,61 @@ export function DashboardVariantAppleEditorial() {
               })}
             </div>
           </div>
-        ) : (
+        ) : screen === "navigator" ? (
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[32px] font-bold leading-[1] tracking-tight text-ink">
+              Housing Navigator
+            </h1>
+
+            <div className="mt-6 flex items-center gap-2">
+              {Array.from({ length: mockNavigator.stepCount }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-2 rounded-full ${
+                    i === mockNavigator.stepIndex - 1
+                      ? "w-7"
+                      : "w-2 bg-black/10"
+                  }`}
+                  style={i === mockNavigator.stepIndex - 1 ? { backgroundColor: YELLOW } : undefined}
+                />
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mt-6 rounded-[28px] bg-white p-5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+            >
+              <p className="text-[18px] font-bold text-ink">{mockNavigatorTask.title}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+                {mockNavigatorTask.description}
+              </p>
+              <button
+                type="button"
+                className="mt-5 w-full rounded-full bg-black py-3 text-[14px] font-bold text-white"
+              >
+                {mockNavigatorTask.primaryCta}
+              </button>
+              <p className="mt-4 text-center text-[13px] font-bold text-ink">
+                {mockNavigatorTask.secondaryCta}
+              </p>
+            </motion.div>
+
+            <div className="mt-6 flex items-center gap-3">
+              <div className="flex-1 rounded-full bg-white py-3 text-center text-[14px] font-bold text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+                Back
+              </div>
+              <div
+                className="flex-1 rounded-full py-3 text-center text-[14px] font-bold text-black"
+                style={{ backgroundColor: YELLOW }}
+              >
+                Next
+              </div>
+            </div>
+          </div>
+        ) : screen === "repository" ? (
           <div className="relative px-5 pb-32 pt-6">
             <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
             <h1 className="mt-1 text-[36px] font-bold leading-[1] tracking-tight text-ink">
@@ -250,6 +313,54 @@ export function DashboardVariantAppleEditorial() {
                   </div>
                 </div>
               ))}
+            </motion.div>
+          </div>
+        ) : (
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
+              Housing 101 Info Portal
+            </h1>
+
+            <div className="mt-6 flex items-center gap-2 rounded-full bg-white px-4 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+              <Search className="h-4 w-4 text-ink-soft/60" strokeWidth={1.75} />
+              <span className="text-[13px] text-ink-soft/60">Search...</span>
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              {["Housing", "Credit"].map((tag, i) => (
+                <span
+                  key={tag}
+                  className="rounded-full px-4 py-2 text-[12px] font-bold text-ink"
+                  style={{ backgroundColor: i === 0 ? YELLOW : "#ffffff" }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mt-6 grid grid-cols-2 gap-3"
+            >
+              {mockInfoTopics.map((topic) => {
+                const Icon = infoTopicIcons[topic.key];
+                return (
+                  <div
+                    key={topic.key}
+                    className="flex flex-col gap-4 rounded-[24px] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f2eee5]">
+                      <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
+                    </div>
+                    <p className="text-[14px] font-semibold leading-tight text-ink">
+                      {topic.label}
+                    </p>
+                  </div>
+                );
+              })}
             </motion.div>
           </div>
         )}
