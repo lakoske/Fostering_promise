@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DashboardVariantAppleEditorial } from "@/components/dashboard/VariantAppleEditorial";
 import { DashboardVariantAppleFlat } from "@/components/dashboard/VariantAppleFlat";
 import { DashboardVariantAppleGlass } from "@/components/dashboard/VariantAppleGlass";
 import { DashboardVariantAppleGlassBlue } from "@/components/dashboard/VariantAppleGlassBlue";
@@ -22,6 +23,11 @@ const variants = [
     key: "apple-graphite",
     label: "Apple Graphite (dark)",
     Component: DashboardVariantAppleGraphite,
+  },
+  {
+    key: "apple-editorial",
+    label: "Apple Editorial",
+    Component: DashboardVariantAppleEditorial,
   },
 ] as const;
 
