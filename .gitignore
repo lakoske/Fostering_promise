@@ -8,6 +8,9 @@ web/*.tsbuildinfo
 web/next-env.d.ts
 web/.env*
 
+# scratch / local-only files, never commit
+/temp/
+
 # OS
 .DS_Store
 Thumbs.db
