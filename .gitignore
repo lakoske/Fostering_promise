@@ -1,0 +1,19 @@
+# Next.js app (web/)
+web/node_modules
+web/.next/
+web/out/
+web/build
+web/.vercel
+web/*.tsbuildinfo
+web/next-env.d.ts
+web/.env*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*

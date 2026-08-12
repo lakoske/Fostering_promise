@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  /* Fostering Promise brand */
+  --color-brand-blue: #2859bf;
+  --color-brand-blue-dark: #1c3f8c;
+  --color-brand-teal: #4ddacf;
+  --color-brand-teal-dark: #2fb8ac;
+  --color-sky: #45c1f5;
+  --color-sky-dark: #16a8ea;
+  --color-graphite: #19191b;
+  --color-graphite-deep: #0b0b0c;
+  --color-graphite-panel: #2a2a2d;
+  /* Apple-style neutral system: near-black text, muted secondary, light-gray canvas */
+  --color-ink: #1d1d1f;
+  --color-ink-soft: #6e6e73;
+  --color-neutral: #f5f5f7;
+  --color-surface: #ffffff;
+}
+
+@theme inline {
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-dark: var(--color-brand-blue-dark);
+  --color-brand-teal: var(--color-brand-teal);
+  --color-brand-teal-dark: var(--color-brand-teal-dark);
+  --color-sky: var(--color-sky);
+  --color-sky-dark: var(--color-sky-dark);
+  --color-graphite: var(--color-graphite);
+  --color-graphite-deep: var(--color-graphite-deep);
+  --color-graphite-panel: var(--color-graphite-panel);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-neutral: var(--color-neutral);
+  --color-surface: var(--color-surface);
+  --font-body: var(--font-body);
+}
