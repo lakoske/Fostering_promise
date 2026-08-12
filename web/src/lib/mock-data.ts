@@ -19,7 +19,12 @@ export const mockHousingUnits = [
   { image: "/images/mockup-assets/apartment-6.png", units: 2, city: "Gilroy, CA" },
 ] as const;
 
-export const mockTiles = [
+export const mockTiles: {
+  key: string;
+  label: string;
+  badge?: number;
+  href: string;
+}[] = [
   {
     key: "mentor",
     label: "Mentor Connect",
@@ -41,4 +46,4 @@ export const mockTiles = [
     label: "Resources",
     href: "/resources",
   },
-] as const;
+];
