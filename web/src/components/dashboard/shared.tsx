@@ -1,15 +1,21 @@
 import {
   Bell,
   BookOpen,
+  Briefcase,
   CreditCard,
+  FileText,
   GraduationCap,
   HeartHandshake,
+  HeartPulse,
+  IdCard,
   LifeBuoy,
   Menu,
   PiggyBank,
   Scale,
+  ShieldCheck,
   Ticket,
   User,
+  Users,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
@@ -26,6 +32,19 @@ export const infoTopicIcons: Record<string, LucideIcon> = {
   credit: CreditCard,
   budget: PiggyBank,
   rights: Scale,
+};
+
+export const walletDocumentIcons: Record<string, LucideIcon> = {
+  birth: FileText,
+  license: IdCard,
+  ssn: ShieldCheck,
+};
+
+export const resourceServiceIcons: Record<string, LucideIcon> = {
+  wellness: HeartPulse,
+  education: GraduationCap,
+  jobs: Briefcase,
+  mentors: Users,
 };
 
 export const navIcons: LucideIcon[] = [GraduationCap, Bell, User, Menu];

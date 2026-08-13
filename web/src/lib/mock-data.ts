@@ -25,6 +25,37 @@ export const mockInfoTopics: { key: string; label: string }[] = [
   { key: "rights", label: "Renter's rights" },
 ];
 
+export const mockWalletDescription =
+  "This secure repository is where you can store and access all the documents you need to apply for housing, schools, jobs and more...";
+
+export const mockWalletDocuments: { key: string; label: string }[] = [
+  { key: "birth", label: "Birth records" },
+  { key: "license", label: "Driver's license" },
+  { key: "ssn", label: "Social Security" },
+];
+
+export const mockCalendar = {
+  month: "March",
+  weekDays: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
+  // 6 rows x 7 cols, March starting on Sunday; 0 = blank/prev-month filler
+  days: [
+    [0, 0, 1, 2, 3, 4, 5],
+    [6, 7, 8, 9, 10, 11, 12],
+    [13, 14, 15, 16, 17, 18, 19],
+    [20, 21, 22, 23, 24, 25, 26],
+    [27, 28, 29, 30, 31, 0, 0],
+  ],
+  highlighted: [15, 24],
+  proposedDates: ["March 15", "March 24"],
+};
+
+export const mockResourceServices: { key: string; label: string }[] = [
+  { key: "wellness", label: "Access wellness / care services" },
+  { key: "education", label: "Discover education programs" },
+  { key: "jobs", label: "Connect to a job network" },
+  { key: "mentors", label: "Connect with mentors" },
+];
+
 export const mockHousingUnits = [
   { image: "/images/mockup-assets/apartment-1.png", units: 10, city: "Gilroy, CA" },
   { image: "/images/mockup-assets/apartment-2.png", units: 2, city: "San Francisco, CA" },

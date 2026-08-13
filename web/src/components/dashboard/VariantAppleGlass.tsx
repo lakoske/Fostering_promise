@@ -2,22 +2,28 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import {
+  mockCalendar,
   mockHousingUnits,
   mockInfoTopics,
   mockNavigator,
   mockNavigatorTask,
+  mockResourceServices,
   mockTiles,
   mockUser,
+  mockWalletDescription,
+  mockWalletDocuments,
 } from "@/lib/mock-data";
 import {
   iconGradientId,
   infoTopicIcons,
   navIcons,
   PhoneShell,
+  resourceServiceIcons,
   StatusBar,
   tileIcons,
+  walletDocumentIcons,
 } from "./shared";
 
 function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
@@ -61,13 +67,24 @@ function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
   );
 }
 
-type Screen = "welcome" | "dashboard" | "navigator" | "repository" | "infoPortal";
+type Screen =
+  | "welcome"
+  | "dashboard"
+  | "navigator"
+  | "repository"
+  | "infoPortal"
+  | "wallet"
+  | "mentor"
+  | "resources";
 const nextScreen: Record<Screen, Screen> = {
   welcome: "dashboard",
   dashboard: "navigator",
   navigator: "repository",
   repository: "infoPortal",
-  infoPortal: "welcome",
+  infoPortal: "wallet",
+  wallet: "mentor",
+  mentor: "resources",
+  resources: "welcome",
 };
 
 export function DashboardVariantAppleGlass() {
@@ -307,7 +324,7 @@ export function DashboardVariantAppleGlass() {
                     ))}
                   </motion.div>
                 </div>
-              ) : (
+              ) : screen === "infoPortal" ? (
                 <div className="relative px-5 pb-32 pt-6">
                   <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
@@ -357,6 +374,161 @@ export function DashboardVariantAppleGlass() {
                           <p className="text-[14px] font-medium leading-tight text-ink">
                             {topic.label}
                           </p>
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+              ) : screen === "wallet" ? (
+                <div className="relative px-5 pb-32 pt-6">
+                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
+                    Your Digital Wallet
+                  </h1>
+                  <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+                    {mockWalletDescription}
+                  </p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-6 overflow-hidden rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                  >
+                    {mockWalletDocuments.map((doc, i) => {
+                      const Icon = walletDocumentIcons[doc.key];
+                      return (
+                        <div
+                          key={doc.key}
+                          className={`flex items-center gap-3 px-4 py-3.5 ${
+                            i !== mockWalletDocuments.length - 1
+                              ? "border-b border-white/40"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue/15 to-brand-teal/15">
+                            <Icon
+                              className="h-5 w-5"
+                              strokeWidth={1.25}
+                              color={`url(#${iconGradientId})`}
+                            />
+                          </div>
+                          <p className="flex-1 text-[14px] font-medium text-ink">
+                            {doc.label}
+                          </p>
+                          <ChevronRight className="h-4 w-4 text-ink-soft/40" />
+                        </div>
+                      );
+                    })}
+                  </motion.div>
+                </div>
+              ) : screen === "mentor" ? (
+                <div className="relative px-5 pb-32 pt-6">
+                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
+                    Mentor Connect
+                  </h1>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-6 rounded-[28px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                  >
+                    <div className="flex items-center justify-between">
+                      <ChevronLeft className="h-4 w-4 text-ink-soft/50" />
+                      <p className="text-[14px] font-semibold text-ink">{mockCalendar.month}</p>
+                      <ChevronRight className="h-4 w-4 text-ink-soft/50" />
+                    </div>
+                    <div className="mt-4 grid grid-cols-7 gap-y-2 text-center">
+                      {mockCalendar.weekDays.map((d) => (
+                        <span key={d} className="text-[10px] font-medium text-ink-soft/50">
+                          {d}
+                        </span>
+                      ))}
+                      {mockCalendar.days.flat().map((day, i) => (
+                        <div key={i} className="flex items-center justify-center py-0.5">
+                          {day > 0 && (
+                            <span
+                              className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] ${
+                                mockCalendar.highlighted.includes(day)
+                                  ? "bg-brand-blue font-semibold text-white"
+                                  : "text-ink-soft"
+                              }`}
+                            >
+                              {day}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  <div className="mt-5 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl">
+                    <p className="text-[14px] font-semibold text-ink">Schedule time to meet</p>
+                    <p className="mt-1.5 text-[12px] leading-relaxed text-ink-soft">
+                      Your mentor wants to connect and has proposed two dates. Please pick one!
+                    </p>
+                    <div className="mt-3 flex gap-2">
+                      {mockCalendar.proposedDates.map((date, i) => (
+                        <span
+                          key={date}
+                          className={`rounded-full px-3 py-1.5 text-[12px] font-medium ${
+                            i === 0
+                              ? "bg-brand-blue text-white"
+                              : "border border-white/40 text-ink-soft"
+                          }`}
+                        >
+                          {date}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative px-5 pb-32 pt-6">
+                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
+                    Resources
+                  </h1>
+
+                  <div className="mt-6 flex items-center gap-2 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 px-4 py-3 backdrop-blur-xl">
+                    <Search className="h-4 w-4 text-ink-soft/60" strokeWidth={1.75} />
+                    <span className="text-[13px] text-ink-soft/60">Search...</span>
+                  </div>
+
+                  <p className="mt-6 text-[15px] font-semibold text-ink">
+                    Get services you need!
+                  </p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-3 overflow-hidden rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                  >
+                    {mockResourceServices.map((service, i) => {
+                      const Icon = resourceServiceIcons[service.key];
+                      return (
+                        <div
+                          key={service.key}
+                          className={`flex items-center gap-3 px-4 py-3.5 ${
+                            i !== mockResourceServices.length - 1
+                              ? "border-b border-white/40"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue/15 to-brand-teal/15">
+                            <Icon
+                              className="h-5 w-5"
+                              strokeWidth={1.25}
+                              color={`url(#${iconGradientId})`}
+                            />
+                          </div>
+                          <p className="flex-1 text-[14px] font-medium text-ink">
+                            {service.label}
+                          </p>
+                          <ChevronRight className="h-4 w-4 text-ink-soft/40" />
                         </div>
                       );
                     })}

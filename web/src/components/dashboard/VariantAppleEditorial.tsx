@@ -2,21 +2,32 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ChevronRight, Search } from "lucide-react";
-import { Quicksand } from "next/font/google";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { Commissioner } from "next/font/google";
 import {
+  mockCalendar,
   mockHousingUnits,
   mockInfoTopics,
   mockNavigator,
   mockNavigatorTask,
+  mockResourceServices,
   mockTiles,
   mockUser,
+  mockWalletDescription,
+  mockWalletDocuments,
 } from "@/lib/mock-data";
-import { infoTopicIcons, navIcons, PhoneShell, StatusBar, tileIcons } from "./shared";
+import {
+  infoTopicIcons,
+  navIcons,
+  PhoneShell,
+  resourceServiceIcons,
+  StatusBar,
+  tileIcons,
+  walletDocumentIcons,
+} from "./shared";
 
-// Quicksand has no italic cut in Google Fonts — used upright, applied to
-// every piece of text in this variant (not just the display heading).
-const display = Quicksand({
+// Applied to every piece of text in this variant (not just the display heading).
+const display = Commissioner({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -65,13 +76,24 @@ function ProgressRing({ value, size = 46 }: { value: number; size?: number }) {
   );
 }
 
-type Screen = "welcome" | "dashboard" | "navigator" | "repository" | "infoPortal";
+type Screen =
+  | "welcome"
+  | "dashboard"
+  | "navigator"
+  | "repository"
+  | "infoPortal"
+  | "wallet"
+  | "mentor"
+  | "resources";
 const nextScreen: Record<Screen, Screen> = {
   welcome: "dashboard",
   dashboard: "navigator",
   navigator: "repository",
   repository: "infoPortal",
-  infoPortal: "welcome",
+  infoPortal: "wallet",
+  wallet: "mentor",
+  mentor: "resources",
+  resources: "welcome",
 };
 
 export function DashboardVariantAppleEditorial() {
@@ -100,7 +122,7 @@ export function DashboardVariantAppleEditorial() {
                 className="h-28 w-28 rounded-full object-cover ring-4 ring-white"
               />
               <p className="mt-8 text-[14px] text-ink-soft">Welcome back</p>
-              <p className="mt-1 text-[36px] font-bold leading-[1.05] text-ink">
+              <p className="mt-1 text-[36px] font-medium leading-[1.05] text-ink">
                 {mockUser.name}
               </p>
 
@@ -159,7 +181,7 @@ export function DashboardVariantAppleEditorial() {
             <p className="mt-7 text-[11px] font-medium uppercase tracking-[0.08em] text-ink-soft">
               Good afternoon
             </p>
-            <h1 className="text-[44px] font-bold leading-[1] tracking-tight text-ink">
+            <h1 className="text-[44px] font-medium leading-[1] tracking-tight text-ink">
               {mockUser.name}
             </h1>
 
@@ -208,7 +230,7 @@ export function DashboardVariantAppleEditorial() {
                       <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
                     </div>
                     <div className="flex items-end justify-between gap-2">
-                      <p className="text-[14px] font-semibold leading-tight text-ink">
+                      <p className="text-[14px] font-normal leading-tight text-ink">
                         {tile.label}
                       </p>
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-white">
@@ -315,7 +337,7 @@ export function DashboardVariantAppleEditorial() {
               ))}
             </motion.div>
           </div>
-        ) : (
+        ) : screen === "infoPortal" ? (
           <div className="relative px-5 pb-32 pt-6">
             <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
             <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
@@ -355,13 +377,140 @@ export function DashboardVariantAppleEditorial() {
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f2eee5]">
                       <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
                     </div>
-                    <p className="text-[14px] font-semibold leading-tight text-ink">
+                    <p className="text-[14px] font-normal leading-tight text-ink">
                       {topic.label}
                     </p>
                   </div>
                 );
               })}
             </motion.div>
+          </div>
+        ) : screen === "wallet" ? (
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
+              Your Digital Wallet
+            </h1>
+            <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+              {mockWalletDescription}
+            </p>
+
+            <div className="mt-6 flex flex-col gap-3">
+              {mockWalletDocuments.map((doc, i) => {
+                const Icon = walletDocumentIcons[doc.key];
+                return (
+                  <motion.div
+                    key={doc.key}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
+                    className="flex items-center gap-3 rounded-full bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f2eee5]">
+                      <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
+                    </div>
+                    <p className="flex-1 text-[14px] font-normal text-ink">{doc.label}</p>
+                    <ChevronRight className="h-4 w-4 text-ink-soft/40" />
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        ) : screen === "mentor" ? (
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
+              Mentor Connect
+            </h1>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mt-6 rounded-[28px] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+            >
+              <div className="flex items-center justify-between">
+                <ChevronLeft className="h-4 w-4 text-ink-soft/50" />
+                <p className="text-[14px] font-bold text-ink">{mockCalendar.month}</p>
+                <ChevronRight className="h-4 w-4 text-ink-soft/50" />
+              </div>
+              <div className="mt-4 grid grid-cols-7 gap-y-2 text-center">
+                {mockCalendar.weekDays.map((d) => (
+                  <span key={d} className="text-[10px] font-bold text-ink-soft/50">
+                    {d}
+                  </span>
+                ))}
+                {mockCalendar.days.flat().map((day, i) => (
+                  <div key={i} className="flex items-center justify-center py-0.5">
+                    {day > 0 && (
+                      <span
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-medium text-ink"
+                        style={
+                          mockCalendar.highlighted.includes(day)
+                            ? { backgroundColor: YELLOW, fontWeight: 700 }
+                            : undefined
+                        }
+                      >
+                        {day}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <div className="mt-5 rounded-[24px] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+              <p className="text-[14px] font-bold text-ink">Schedule time to meet</p>
+              <p className="mt-1.5 text-[12px] leading-relaxed text-ink-soft">
+                Your mentor wants to connect and has proposed two dates. Please pick one!
+              </p>
+              <div className="mt-3 flex gap-2">
+                {mockCalendar.proposedDates.map((date, i) => (
+                  <span
+                    key={date}
+                    className="rounded-full px-3 py-1.5 text-[12px] font-bold text-ink"
+                    style={{ backgroundColor: i === 0 ? YELLOW : "#f2eee5" }}
+                  >
+                    {date}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="relative px-5 pb-32 pt-6">
+            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
+              Resources
+            </h1>
+
+            <div className="mt-6 flex items-center gap-2 rounded-full bg-white px-4 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+              <Search className="h-4 w-4 text-ink-soft/60" strokeWidth={1.75} />
+              <span className="text-[13px] text-ink-soft/60">Search...</span>
+            </div>
+
+            <p className="mt-6 text-[15px] font-bold text-ink">Get services you need!</p>
+
+            <div className="mt-3 flex flex-col gap-3">
+              {mockResourceServices.map((service, i) => {
+                const Icon = resourceServiceIcons[service.key];
+                return (
+                  <motion.div
+                    key={service.key}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
+                    className="flex items-center gap-3 rounded-full bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f2eee5]">
+                      <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
+                    </div>
+                    <p className="flex-1 text-[14px] font-normal text-ink">{service.label}</p>
+                    <ChevronRight className="h-4 w-4 text-ink-soft/40" />
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         )}
         </div>
