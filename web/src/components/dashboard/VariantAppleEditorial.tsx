@@ -128,7 +128,7 @@ export function DashboardVariantAppleEditorial() {
 
               <button
                 type="button"
-                className="mt-10 w-full max-w-[220px] rounded-full py-3.5 text-[15px] font-bold text-black"
+                className="mt-10 w-full max-w-[220px] rounded-full py-3.5 text-[15px] font-bold text-black transition-transform duration-150 active:scale-95"
                 style={{ backgroundColor: YELLOW }}
               >
                 Click to log in
@@ -146,14 +146,14 @@ export function DashboardVariantAppleEditorial() {
               <button
                 type="button"
                 aria-label="Search"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white transition-transform duration-150 active:scale-90"
               >
                 <Search className="h-4 w-4 text-ink" strokeWidth={1.5} />
               </button>
               <button
                 type="button"
                 aria-label="Messages"
-                className="relative flex h-10 w-10 items-center justify-center rounded-full bg-white"
+                className="relative flex h-10 w-10 items-center justify-center rounded-full bg-white transition-transform duration-150 active:scale-90"
               >
                 <svg
                   width="17"
@@ -188,6 +188,7 @@ export function DashboardVariantAppleEditorial() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.4 }}
               className="mt-7 flex items-center gap-3 rounded-full bg-white py-2.5 pl-2.5 pr-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
             >
@@ -217,6 +218,7 @@ export function DashboardVariantAppleEditorial() {
                     key={tile.key}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.96 }}
                     transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
                     className="relative flex flex-col gap-4 rounded-[26px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
                     style={{ backgroundColor: isFeatured ? YELLOW : "#ffffff" }}
@@ -275,21 +277,21 @@ export function DashboardVariantAppleEditorial() {
               </p>
               <button
                 type="button"
-                className="mt-5 w-full rounded-full bg-black py-3 text-[14px] font-bold text-white"
+                className="mt-5 w-full rounded-full bg-black py-3 text-[14px] font-bold text-white transition-transform duration-150 active:scale-95"
               >
                 {mockNavigatorTask.primaryCta}
               </button>
-              <p className="mt-4 text-center text-[13px] font-bold text-ink">
+              <p className="mt-4 text-center text-[13px] font-bold text-ink transition-transform duration-150 active:scale-95">
                 {mockNavigatorTask.secondaryCta}
               </p>
             </motion.div>
 
             <div className="mt-6 flex items-center gap-3">
-              <div className="flex-1 rounded-full bg-white py-3 text-center text-[14px] font-bold text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+              <div className="flex-1 rounded-full bg-white py-3 text-center text-[14px] font-bold text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-transform duration-150 active:scale-95">
                 Back
               </div>
               <div
-                className="flex-1 rounded-full py-3 text-center text-[14px] font-bold text-black"
+                className="flex-1 rounded-full py-3 text-center text-[14px] font-bold text-black transition-transform duration-150 active:scale-95"
                 style={{ backgroundColor: YELLOW }}
               >
                 Next
@@ -311,7 +313,7 @@ export function DashboardVariantAppleEditorial() {
               {mockHousingUnits.map((unit, i) => (
                 <div
                   key={i}
-                  className="relative aspect-[4/5] overflow-hidden rounded-[28px] shadow-md"
+                  className="relative aspect-[4/5] overflow-hidden rounded-[28px] shadow-md transition-transform duration-150 active:scale-[0.97]"
                 >
                   <img
                     src={unit.image}
@@ -353,7 +355,7 @@ export function DashboardVariantAppleEditorial() {
               {["Housing", "Credit"].map((tag, i) => (
                 <span
                   key={tag}
-                  className="rounded-full px-4 py-2 text-[12px] font-bold text-ink"
+                  className="rounded-full px-4 py-2 text-[12px] font-bold text-ink transition-transform duration-150 active:scale-95"
                   style={{ backgroundColor: i === 0 ? YELLOW : "#ffffff" }}
                 >
                   {tag}
@@ -372,7 +374,7 @@ export function DashboardVariantAppleEditorial() {
                 return (
                   <div
                     key={topic.key}
-                    className="flex flex-col gap-4 rounded-[24px] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+                    className="flex flex-col gap-4 rounded-[24px] bg-white p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-transform duration-150 active:scale-[0.97]"
                   >
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f2eee5]">
                       <Icon className="h-5 w-5 text-ink" strokeWidth={1.5} />
@@ -403,6 +405,7 @@ export function DashboardVariantAppleEditorial() {
                     key={doc.key}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.97 }}
                     transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
                     className="flex items-center gap-3 rounded-full bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
                   >
@@ -468,7 +471,7 @@ export function DashboardVariantAppleEditorial() {
                 {mockCalendar.proposedDates.map((date, i) => (
                   <span
                     key={date}
-                    className="rounded-full px-3 py-1.5 text-[12px] font-bold text-ink"
+                    className="rounded-full px-3 py-1.5 text-[12px] font-bold text-ink transition-transform duration-150 active:scale-95"
                     style={{ backgroundColor: i === 0 ? YELLOW : "#f2eee5" }}
                   >
                     {date}
@@ -499,6 +502,7 @@ export function DashboardVariantAppleEditorial() {
                     key={service.key}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.97 }}
                     transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
                     className="flex items-center gap-3 rounded-full bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
                   >
@@ -520,7 +524,7 @@ export function DashboardVariantAppleEditorial() {
             {navIcons.map((Icon, i) => (
               <div
                 key={i}
-                className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                className={`flex h-10 w-10 items-center justify-center rounded-full transition-transform duration-150 active:scale-90 ${
                   i === 0 ? "bg-black text-white" : "text-ink-soft/50"
                 }`}
               >

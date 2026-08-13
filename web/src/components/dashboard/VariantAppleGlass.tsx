@@ -133,7 +133,7 @@ export function DashboardVariantAppleGlass() {
 
                 <button
                   type="button"
-                  className="mt-10 w-full max-w-[220px] rounded-full bg-white/90 py-3.5 text-[15px] font-semibold text-brand-blue-dark shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-xl"
+                  className="mt-10 w-full max-w-[220px] rounded-full bg-white/90 py-3.5 text-[15px] font-semibold text-brand-blue-dark shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-xl transition-transform duration-150 active:scale-95"
                 >
                   Click to log in
                 </button>
@@ -160,7 +160,7 @@ export function DashboardVariantAppleGlass() {
                     <button
                       type="button"
                       aria-label="Messages"
-                      className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-b from-white/80 to-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+                      className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-b from-white/80 to-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-xl transition-transform duration-150 active:scale-90"
                     >
                       <svg
                         width="19"
@@ -214,6 +214,7 @@ export function DashboardVariantAppleGlass() {
                           key={tile.key}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
+                          whileTap={{ scale: 0.96 }}
                           transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
                           className="relative flex flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
                         >
@@ -274,20 +275,20 @@ export function DashboardVariantAppleGlass() {
                     </p>
                     <button
                       type="button"
-                      className="mt-5 w-full rounded-full bg-brand-blue py-3 text-[14px] font-semibold text-white"
+                      className="mt-5 w-full rounded-full bg-brand-blue py-3 text-[14px] font-semibold text-white transition-transform duration-150 active:scale-95"
                     >
                       {mockNavigatorTask.primaryCta}
                     </button>
-                    <p className="mt-4 text-center text-[13px] font-medium text-brand-blue">
+                    <p className="mt-4 text-center text-[13px] font-medium text-brand-blue transition-transform duration-150 active:scale-95">
                       {mockNavigatorTask.secondaryCta}
                     </p>
                   </motion.div>
 
                   <div className="mt-6 flex items-center gap-3">
-                    <div className="flex-1 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-3 text-center text-[14px] font-medium text-ink-soft backdrop-blur-xl">
+                    <div className="flex-1 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-3 text-center text-[14px] font-medium text-ink-soft backdrop-blur-xl transition-transform duration-150 active:scale-95">
                       Back
                     </div>
-                    <div className="flex-1 rounded-full bg-brand-blue py-3 text-center text-[14px] font-medium text-white">
+                    <div className="flex-1 rounded-full bg-brand-blue py-3 text-center text-[14px] font-medium text-white transition-transform duration-150 active:scale-95">
                       Next
                     </div>
                   </div>
@@ -307,7 +308,7 @@ export function DashboardVariantAppleGlass() {
                     {mockHousingUnits.map((unit, i) => (
                       <div
                         key={i}
-                        className="overflow-hidden rounded-[20px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                        className="overflow-hidden rounded-[20px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl transition-transform duration-150 active:scale-[0.97]"
                       >
                         <img
                           src={unit.image}
@@ -340,7 +341,7 @@ export function DashboardVariantAppleGlass() {
                     {["Housing", "Credit"].map((tag, i) => (
                       <span
                         key={tag}
-                        className={`rounded-full px-4 py-2 text-[12px] font-medium ${
+                        className={`rounded-full px-4 py-2 text-[12px] font-medium transition-transform duration-150 active:scale-95 ${
                           i === 0
                             ? "bg-brand-blue text-white"
                             : "border border-white/40 bg-gradient-to-b from-white/45 to-white/20 text-ink-soft backdrop-blur-xl"
@@ -362,7 +363,7 @@ export function DashboardVariantAppleGlass() {
                       return (
                         <div
                           key={topic.key}
-                          className="flex flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                          className="flex flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl transition-transform duration-150 active:scale-[0.97]"
                         >
                           <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-blue/15 to-brand-teal/15">
                             <Icon
@@ -400,7 +401,7 @@ export function DashboardVariantAppleGlass() {
                       return (
                         <div
                           key={doc.key}
-                          className={`flex items-center gap-3 px-4 py-3.5 ${
+                          className={`flex items-center gap-3 px-4 py-3.5 transition-transform duration-150 active:scale-[0.98] ${
                             i !== mockWalletDocuments.length - 1
                               ? "border-b border-white/40"
                               : ""
@@ -473,7 +474,7 @@ export function DashboardVariantAppleGlass() {
                       {mockCalendar.proposedDates.map((date, i) => (
                         <span
                           key={date}
-                          className={`rounded-full px-3 py-1.5 text-[12px] font-medium ${
+                          className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition-transform duration-150 active:scale-95 ${
                             i === 0
                               ? "bg-brand-blue text-white"
                               : "border border-white/40 text-ink-soft"
@@ -512,7 +513,7 @@ export function DashboardVariantAppleGlass() {
                       return (
                         <div
                           key={service.key}
-                          className={`flex items-center gap-3 px-4 py-3.5 ${
+                          className={`flex items-center gap-3 px-4 py-3.5 transition-transform duration-150 active:scale-[0.98] ${
                             i !== mockResourceServices.length - 1
                               ? "border-b border-white/40"
                               : ""
@@ -544,7 +545,7 @@ export function DashboardVariantAppleGlass() {
             {navIcons.map((Icon, i) => (
               <div
                 key={i}
-                className={`flex h-9 w-9 items-center justify-center rounded-full ${
+                className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-150 active:scale-90 ${
                   i === 0 ? "bg-brand-blue/10 text-brand-blue" : "text-ink-soft/50"
                 }`}
               >
