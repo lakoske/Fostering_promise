@@ -16,6 +16,8 @@ import {
   mockWalletDescription,
   mockWalletDocuments,
 } from "@/lib/mock-data";
+import type { Screen } from "./screen-nav";
+import { tileHrefToScreen } from "./screen-nav";
 import {
   infoTopicIcons,
   navIcons,
@@ -76,25 +78,18 @@ function ProgressRing({ value, size = 46 }: { value: number; size?: number }) {
   );
 }
 
-type Screen =
-  | "welcome"
-  | "dashboard"
-  | "navigator"
-  | "repository"
-  | "infoPortal"
-  | "wallet"
-  | "mentor"
-  | "resources";
-const nextScreen: Record<Screen, Screen> = {
-  welcome: "dashboard",
-  dashboard: "navigator",
-  navigator: "repository",
-  repository: "infoPortal",
-  infoPortal: "wallet",
-  wallet: "mentor",
-  mentor: "resources",
-  resources: "welcome",
-};
+function BackRow({ onBack }: { onBack: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onBack}
+      className="flex items-center gap-1 text-[12px] font-bold text-ink-soft transition-transform duration-150 active:scale-95"
+    >
+      <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2.5} />
+      Back
+    </button>
+  );
+}
 
 export function DashboardVariantAppleEditorial() {
   const [screen, setScreen] = useState<Screen>("welcome");
@@ -103,8 +98,7 @@ export function DashboardVariantAppleEditorial() {
   return (
     <PhoneShell>
       <div
-        onClick={() => setScreen((s) => nextScreen[s])}
-        className={`${display.className} relative flex flex-1 cursor-pointer flex-col overflow-hidden bg-[#dde4e6]`}
+        className={`${display.className} relative flex flex-1 flex-col overflow-hidden bg-[#dde4e6]`}
       >
         <StatusBar />
 
@@ -128,6 +122,7 @@ export function DashboardVariantAppleEditorial() {
 
               <button
                 type="button"
+                onClick={() => setScreen("dashboard")}
                 className="mt-10 w-full max-w-[220px] rounded-full py-3.5 text-[15px] font-bold text-black transition-transform duration-150 active:scale-95"
                 style={{ backgroundColor: YELLOW }}
               >
@@ -190,7 +185,8 @@ export function DashboardVariantAppleEditorial() {
               animate={{ opacity: 1, y: 0 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.4 }}
-              className="mt-7 flex items-center gap-3 rounded-full bg-white py-2.5 pl-2.5 pr-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+              onClick={() => setScreen("navigator")}
+              className="mt-7 flex cursor-pointer items-center gap-3 rounded-full bg-white py-2.5 pl-2.5 pr-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
             >
               <ProgressRing value={progress} />
               <div className="min-w-0 flex-1">
@@ -220,7 +216,8 @@ export function DashboardVariantAppleEditorial() {
                     animate={{ opacity: 1, y: 0 }}
                     whileTap={{ scale: 0.96 }}
                     transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
-                    className="relative flex flex-col gap-4 rounded-[26px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+                    onClick={() => setScreen(tileHrefToScreen[tile.href])}
+                    className="relative flex cursor-pointer flex-col gap-4 rounded-[26px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
                     style={{ backgroundColor: isFeatured ? YELLOW : "#ffffff" }}
                   >
                     {tile.badge && (
@@ -246,7 +243,7 @@ export function DashboardVariantAppleEditorial() {
           </div>
         ) : screen === "navigator" ? (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[32px] font-bold leading-[1] tracking-tight text-ink">
               Housing Navigator
             </h1>
@@ -277,30 +274,41 @@ export function DashboardVariantAppleEditorial() {
               </p>
               <button
                 type="button"
+                onClick={() => setScreen("dashboard")}
                 className="mt-5 w-full rounded-full bg-black py-3 text-[14px] font-bold text-white transition-transform duration-150 active:scale-95"
               >
                 {mockNavigatorTask.primaryCta}
               </button>
-              <p className="mt-4 text-center text-[13px] font-bold text-ink transition-transform duration-150 active:scale-95">
+              <button
+                type="button"
+                onClick={() => setScreen("infoPortal")}
+                className="mt-4 w-full text-center text-[13px] font-bold text-ink transition-transform duration-150 active:scale-95"
+              >
                 {mockNavigatorTask.secondaryCta}
-              </p>
+              </button>
             </motion.div>
 
             <div className="mt-6 flex items-center gap-3">
-              <div className="flex-1 rounded-full bg-white py-3 text-center text-[14px] font-bold text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-transform duration-150 active:scale-95">
+              <button
+                type="button"
+                onClick={() => setScreen("dashboard")}
+                className="flex-1 rounded-full bg-white py-3 text-center text-[14px] font-bold text-ink-soft shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-transform duration-150 active:scale-95"
+              >
                 Back
-              </div>
-              <div
+              </button>
+              <button
+                type="button"
+                onClick={() => setScreen("repository")}
                 className="flex-1 rounded-full py-3 text-center text-[14px] font-bold text-black transition-transform duration-150 active:scale-95"
                 style={{ backgroundColor: YELLOW }}
               >
                 Next
-              </div>
+              </button>
             </div>
           </div>
         ) : screen === "repository" ? (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[36px] font-bold leading-[1] tracking-tight text-ink">
               Housing Repository
             </h1>
@@ -341,7 +349,7 @@ export function DashboardVariantAppleEditorial() {
           </div>
         ) : screen === "infoPortal" ? (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
               Housing 101 Info Portal
             </h1>
@@ -353,13 +361,15 @@ export function DashboardVariantAppleEditorial() {
 
             <div className="mt-4 flex gap-2">
               {["Housing", "Credit"].map((tag, i) => (
-                <span
+                <button
                   key={tag}
+                  type="button"
+                  onClick={i === 0 ? () => setScreen("repository") : undefined}
                   className="rounded-full px-4 py-2 text-[12px] font-bold text-ink transition-transform duration-150 active:scale-95"
                   style={{ backgroundColor: i === 0 ? YELLOW : "#ffffff" }}
                 >
                   {tag}
-                </span>
+                </button>
               ))}
             </div>
 
@@ -389,7 +399,7 @@ export function DashboardVariantAppleEditorial() {
           </div>
         ) : screen === "wallet" ? (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
               Your Digital Wallet
             </h1>
@@ -421,7 +431,7 @@ export function DashboardVariantAppleEditorial() {
           </div>
         ) : screen === "mentor" ? (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
               Mentor Connect
             </h1>
@@ -482,7 +492,7 @@ export function DashboardVariantAppleEditorial() {
           </div>
         ) : (
           <div className="relative px-5 pb-32 pt-6">
-            <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+            <BackRow onBack={() => setScreen("dashboard")} />
             <h1 className="mt-1 text-[30px] font-bold leading-[1] tracking-tight text-ink">
               Resources
             </h1>
@@ -522,14 +532,17 @@ export function DashboardVariantAppleEditorial() {
         {screen !== "welcome" && (
           <nav className="absolute inset-x-4 bottom-4 flex items-center justify-around rounded-full bg-white py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.1)]">
             {navIcons.map((Icon, i) => (
-              <div
+              <button
                 key={i}
+                type="button"
+                onClick={() => setScreen(i === 2 ? "welcome" : "dashboard")}
+                aria-label={i === 0 ? "Home" : i === 2 ? "Sign out" : "Back to home"}
                 className={`flex h-10 w-10 items-center justify-center rounded-full transition-transform duration-150 active:scale-90 ${
                   i === 0 ? "bg-black text-white" : "text-ink-soft/50"
                 }`}
               >
                 <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
-              </div>
+              </button>
             ))}
           </nav>
         )}

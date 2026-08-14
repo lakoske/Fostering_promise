@@ -15,6 +15,8 @@ import {
   mockWalletDescription,
   mockWalletDocuments,
 } from "@/lib/mock-data";
+import type { Screen } from "./screen-nav";
+import { tileHrefToScreen } from "./screen-nav";
 import {
   iconGradientId,
   infoTopicIcons,
@@ -67,25 +69,18 @@ function ProgressRing({ value, size = 60 }: { value: number; size?: number }) {
   );
 }
 
-type Screen =
-  | "welcome"
-  | "dashboard"
-  | "navigator"
-  | "repository"
-  | "infoPortal"
-  | "wallet"
-  | "mentor"
-  | "resources";
-const nextScreen: Record<Screen, Screen> = {
-  welcome: "dashboard",
-  dashboard: "navigator",
-  navigator: "repository",
-  repository: "infoPortal",
-  infoPortal: "wallet",
-  wallet: "mentor",
-  mentor: "resources",
-  resources: "welcome",
-};
+function BackRow({ onBack }: { onBack: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onBack}
+      className="flex items-center gap-1 text-[12px] font-medium text-ink-soft transition-transform duration-150 active:scale-95"
+    >
+      <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2} />
+      Back
+    </button>
+  );
+}
 
 export function DashboardVariantAppleGlass() {
   const [screen, setScreen] = useState<Screen>("welcome");
@@ -95,8 +90,7 @@ export function DashboardVariantAppleGlass() {
   return (
     <PhoneShell>
       <div
-        onClick={() => setScreen((s) => nextScreen[s])}
-        className={`relative flex flex-1 cursor-pointer flex-col overflow-hidden ${
+        className={`relative flex flex-1 flex-col overflow-hidden ${
           isWelcome
             ? "bg-gradient-to-br from-brand-blue via-brand-blue to-brand-teal-dark"
             : "bg-neutral"
@@ -133,6 +127,7 @@ export function DashboardVariantAppleGlass() {
 
                 <button
                   type="button"
+                  onClick={() => setScreen("dashboard")}
                   className="mt-10 w-full max-w-[220px] rounded-full bg-white/90 py-3.5 text-[15px] font-semibold text-brand-blue-dark shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-xl transition-transform duration-150 active:scale-95"
                 >
                   Click to log in
@@ -188,8 +183,10 @@ export function DashboardVariantAppleGlass() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.4 }}
-                    className="mt-7 flex items-center gap-4 rounded-[28px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                    onClick={() => setScreen("navigator")}
+                    className="mt-7 flex cursor-pointer items-center gap-4 rounded-[28px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
                   >
                     <ProgressRing value={progress} />
                     <div className="min-w-0 flex-1">
@@ -216,7 +213,8 @@ export function DashboardVariantAppleGlass() {
                           animate={{ opacity: 1, y: 0 }}
                           whileTap={{ scale: 0.96 }}
                           transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
-                          className="relative flex flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
+                          onClick={() => setScreen(tileHrefToScreen[tile.href])}
+                          className="relative flex cursor-pointer flex-col gap-4 rounded-[24px] border border-white/40 bg-gradient-to-br from-white/45 via-white/35 to-white/20 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_4px_16px_rgba(0,0,0,0.05)] backdrop-blur-2xl"
                         >
                           {tile.badge && (
                             <span className="absolute right-3 top-3 flex h-[20px] min-w-[20px] items-center justify-center rounded-full bg-brand-blue px-1.5 text-[11px] font-semibold text-white">
@@ -243,7 +241,7 @@ export function DashboardVariantAppleGlass() {
                 </div>
               ) : screen === "navigator" ? (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Housing Navigator
                   </h1>
@@ -275,27 +273,40 @@ export function DashboardVariantAppleGlass() {
                     </p>
                     <button
                       type="button"
+                      onClick={() => setScreen("dashboard")}
                       className="mt-5 w-full rounded-full bg-brand-blue py-3 text-[14px] font-semibold text-white transition-transform duration-150 active:scale-95"
                     >
                       {mockNavigatorTask.primaryCta}
                     </button>
-                    <p className="mt-4 text-center text-[13px] font-medium text-brand-blue transition-transform duration-150 active:scale-95">
+                    <button
+                      type="button"
+                      onClick={() => setScreen("infoPortal")}
+                      className="mt-4 w-full text-center text-[13px] font-medium text-brand-blue transition-transform duration-150 active:scale-95"
+                    >
                       {mockNavigatorTask.secondaryCta}
-                    </p>
+                    </button>
                   </motion.div>
 
                   <div className="mt-6 flex items-center gap-3">
-                    <div className="flex-1 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-3 text-center text-[14px] font-medium text-ink-soft backdrop-blur-xl transition-transform duration-150 active:scale-95">
+                    <button
+                      type="button"
+                      onClick={() => setScreen("dashboard")}
+                      className="flex-1 rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-3 text-center text-[14px] font-medium text-ink-soft backdrop-blur-xl transition-transform duration-150 active:scale-95"
+                    >
                       Back
-                    </div>
-                    <div className="flex-1 rounded-full bg-brand-blue py-3 text-center text-[14px] font-medium text-white transition-transform duration-150 active:scale-95">
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setScreen("repository")}
+                      className="flex-1 rounded-full bg-brand-blue py-3 text-center text-[14px] font-medium text-white transition-transform duration-150 active:scale-95"
+                    >
                       Next
-                    </div>
+                    </button>
                   </div>
                 </div>
               ) : screen === "repository" ? (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Housing Repository
                   </h1>
@@ -327,7 +338,7 @@ export function DashboardVariantAppleGlass() {
                 </div>
               ) : screen === "infoPortal" ? (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Housing 101 Info Portal
                   </h1>
@@ -339,8 +350,10 @@ export function DashboardVariantAppleGlass() {
 
                   <div className="mt-4 flex gap-2">
                     {["Housing", "Credit"].map((tag, i) => (
-                      <span
+                      <button
                         key={tag}
+                        type="button"
+                        onClick={i === 0 ? () => setScreen("repository") : undefined}
                         className={`rounded-full px-4 py-2 text-[12px] font-medium transition-transform duration-150 active:scale-95 ${
                           i === 0
                             ? "bg-brand-blue text-white"
@@ -348,7 +361,7 @@ export function DashboardVariantAppleGlass() {
                         }`}
                       >
                         {tag}
-                      </span>
+                      </button>
                     ))}
                   </div>
 
@@ -382,7 +395,7 @@ export function DashboardVariantAppleGlass() {
                 </div>
               ) : screen === "wallet" ? (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Your Digital Wallet
                   </h1>
@@ -425,7 +438,7 @@ export function DashboardVariantAppleGlass() {
                 </div>
               ) : screen === "mentor" ? (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Mentor Connect
                   </h1>
@@ -488,7 +501,7 @@ export function DashboardVariantAppleGlass() {
                 </div>
               ) : (
                 <div className="relative px-5 pb-32 pt-6">
-                  <p className="text-[12px] text-ink-soft">Tap anywhere to continue</p>
+                  <BackRow onBack={() => setScreen("dashboard")} />
                   <h1 className="mt-1 text-[28px] font-extralight tracking-tight text-ink">
                     Resources
                   </h1>
@@ -543,14 +556,17 @@ export function DashboardVariantAppleGlass() {
         {!isWelcome && (
           <nav className="absolute inset-x-4 bottom-4 flex items-center justify-around rounded-full border border-white/40 bg-gradient-to-b from-white/45 to-white/20 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-2xl">
             {navIcons.map((Icon, i) => (
-              <div
+              <button
                 key={i}
+                type="button"
+                onClick={() => setScreen(i === 2 ? "welcome" : "dashboard")}
+                aria-label={i === 0 ? "Home" : i === 2 ? "Sign out" : "Back to home"}
                 className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-150 active:scale-90 ${
                   i === 0 ? "bg-brand-blue/10 text-brand-blue" : "text-ink-soft/50"
                 }`}
               >
                 <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
-              </div>
+              </button>
             ))}
           </nav>
         )}
